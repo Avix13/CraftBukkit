@@ -114,6 +114,23 @@ public abstract class World implements IBlockAccess {
     public CraftServer getServer() {
         return (CraftServer) Bukkit.getServer();
     }
+    
+    public boolean inBounds(int a, int b) {
+    	if(a >= -30000000 && b >= -30000000 && a < 30000000 && b < 30000000) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
+    public void generateMHValues(AxisAlignedBB axisalignedbb) {
+	    int i = MathHelper.floor(axisalignedbb.a);
+	    int j = MathHelper.floor(axisalignedbb.d + 1.0D);
+	    int k = MathHelper.floor(axisalignedbb.b);
+	    int l = MathHelper.floor(axisalignedbb.e + 1.0D);
+	    int i1 = MathHelper.floor(axisalignedbb.c);
+	    int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+    }
 
     // Changed signature - added gen and env
     public World(IDataManager idatamanager, String s, WorldSettings worldsettings, WorldProvider worldprovider, MethodProfiler methodprofiler, ChunkGenerator gen, org.bukkit.World.Environment env) {
@@ -199,7 +216,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public Block getType(int i, int j, int k) {
-        if (i >= -30000000 && k >= -30000000 && i < 30000000 && k < 30000000 && j >= 0 && j < 256) {
+        if (inBounds(i, k) && j >= 0 && j < 256) {
             Chunk chunk = null;
 
             try {
@@ -276,10 +293,8 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean setTypeAndData(int i, int j, int k, Block block, int l, int i1) {
-        if (i >= -30000000 && k >= -30000000 && i < 30000000 && k < 30000000) {
-            if (j < 0) {
-                return false;
-            } else if (j >= 256) {
+        if (inBounds(i, k)) {
+            if (j < 0 || j >= 256) {
                 return false;
             } else {
                 Chunk chunk = this.getChunkAt(i >> 4, k >> 4);
@@ -315,10 +330,8 @@ public abstract class World implements IBlockAccess {
     }
 
     public int getData(int i, int j, int k) {
-        if (i >= -30000000 && k >= -30000000 && i < 30000000 && k < 30000000) {
-            if (j < 0) {
-                return 0;
-            } else if (j >= 256) {
+        if (inBounds(i, k)) {
+            if (j < 0 || j >= 256) {
                 return 0;
             } else {
                 Chunk chunk = this.getChunkAt(i >> 4, k >> 4);
@@ -333,10 +346,8 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean setData(int i, int j, int k, int l, int i1) {
-        if (i >= -30000000 && k >= -30000000 && i < 30000000 && k < 30000000) {
-            if (j < 0) {
-                return false;
-            } else if (j >= 256) {
+        if (inBounds(i, k)) {
+            if (j < 0 || j >= 256) {
                 return false;
             } else {
                 Chunk chunk = this.getChunkAt(i >> 4, k >> 4);
@@ -527,7 +538,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public int b(int i, int j, int k, boolean flag) {
-        if (i >= -30000000 && k >= -30000000 && i < 30000000 && k < 30000000) {
+        if (inBounds(i, k)) {
             if (flag && this.getType(i, j, k).n()) {
                 int l = this.b(i, j + 1, k, false);
                 int i1 = this.b(i + 1, j, k, false);
@@ -571,7 +582,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public int getHighestBlockYAt(int i, int j) {
-        if (i >= -30000000 && j >= -30000000 && i < 30000000 && j < 30000000) {
+        if (inBounds(i, j)) {
             if (!this.isChunkLoaded(i >> 4, j >> 4)) {
                 return 0;
             } else {
@@ -585,7 +596,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public int g(int i, int j) {
-        if (i >= -30000000 && j >= -30000000 && i < 30000000 && j < 30000000) {
+        if (inBounds(i, j)) {
             if (!this.isChunkLoaded(i >> 4, j >> 4)) {
                 return 0;
             } else {
@@ -607,7 +618,7 @@ public abstract class World implements IBlockAccess {
             j = 255;
         }
 
-        if (i >= -30000000 && k >= -30000000 && i < 30000000 && k < 30000000) {
+        if (inBounds(i, k)) {
             int l = i >> 4;
             int i1 = k >> 4;
 
@@ -624,7 +635,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public void b(EnumSkyBlock enumskyblock, int i, int j, int k, int l) {
-        if (i >= -30000000 && k >= -30000000 && i < 30000000 && k < 30000000) {
+        if (inBounds(i, k)) {
             if (j >= 0) {
                 if (j < 256) {
                     if (this.isChunkLoaded(i >> 4, k >> 4)) {
@@ -990,12 +1001,7 @@ public abstract class World implements IBlockAccess {
 
     public List getCubes(Entity entity, AxisAlignedBB axisalignedbb) {
         this.L.clear();
-        int i = MathHelper.floor(axisalignedbb.a);
-        int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-        int k = MathHelper.floor(axisalignedbb.b);
-        int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-        int i1 = MathHelper.floor(axisalignedbb.c);
-        int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+        generateMHValues(axisalignedbb);
 
         for (int k1 = i; k1 < j; ++k1) {
             for (int l1 = i1; l1 < j1; ++l1) {
@@ -1003,7 +1009,7 @@ public abstract class World implements IBlockAccess {
                     for (int i2 = k - 1; i2 < l; ++i2) {
                         Block block;
 
-                        if (k1 >= -30000000 && k1 < 30000000 && l1 >= -30000000 && l1 < 30000000) {
+                        if (inBounds(k1, l1)) {
                             block = this.getType(k1, i2, l1);
                         } else {
                             block = Blocks.STONE;
@@ -1036,12 +1042,7 @@ public abstract class World implements IBlockAccess {
 
     public List a(AxisAlignedBB axisalignedbb) {
         this.L.clear();
-        int i = MathHelper.floor(axisalignedbb.a);
-        int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-        int k = MathHelper.floor(axisalignedbb.b);
-        int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-        int i1 = MathHelper.floor(axisalignedbb.c);
-        int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+        generateMHValues(axisalignedbb);
 
         for (int k1 = i; k1 < j; ++k1) {
             for (int l1 = i1; l1 < j1; ++l1) {
@@ -1049,7 +1050,7 @@ public abstract class World implements IBlockAccess {
                     for (int i2 = k - 1; i2 < l; ++i2) {
                         Block block;
 
-                        if (k1 >= -30000000 && k1 < 30000000 && l1 >= -30000000 && l1 < 30000000) {
+                        if (inBounds(k1, l1)) {
                             block = this.getType(k1, i2, l1);
                         } else {
                             block = Blocks.BEDROCK;
@@ -1415,12 +1416,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean c(AxisAlignedBB axisalignedbb) {
-        int i = MathHelper.floor(axisalignedbb.a);
-        int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-        int k = MathHelper.floor(axisalignedbb.b);
-        int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-        int i1 = MathHelper.floor(axisalignedbb.c);
-        int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+    	generateMHValues(axisalignedbb);
 
         if (axisalignedbb.a < 0.0D) {
             --i;
@@ -1450,12 +1446,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean containsLiquid(AxisAlignedBB axisalignedbb) {
-        int i = MathHelper.floor(axisalignedbb.a);
-        int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-        int k = MathHelper.floor(axisalignedbb.b);
-        int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-        int i1 = MathHelper.floor(axisalignedbb.c);
-        int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+    	generateMHValues(axisalignedbb);
 
         if (axisalignedbb.a < 0.0D) {
             --i;
@@ -1485,12 +1476,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean e(AxisAlignedBB axisalignedbb) {
-        int i = MathHelper.floor(axisalignedbb.a);
-        int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-        int k = MathHelper.floor(axisalignedbb.b);
-        int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-        int i1 = MathHelper.floor(axisalignedbb.c);
-        int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+    	generateMHValues(axisalignedbb);
 
         if (this.b(i, k, i1, j, l, j1)) {
             for (int k1 = i; k1 < j; ++k1) {
@@ -1510,12 +1496,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean a(AxisAlignedBB axisalignedbb, Material material, Entity entity) {
-        int i = MathHelper.floor(axisalignedbb.a);
-        int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-        int k = MathHelper.floor(axisalignedbb.b);
-        int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-        int i1 = MathHelper.floor(axisalignedbb.c);
-        int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+    	generateMHValues(axisalignedbb);
 
         if (!this.b(i, k, i1, j, l, j1)) {
             return false;
@@ -1554,12 +1535,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean a(AxisAlignedBB axisalignedbb, Material material) {
-        int i = MathHelper.floor(axisalignedbb.a);
-        int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-        int k = MathHelper.floor(axisalignedbb.b);
-        int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-        int i1 = MathHelper.floor(axisalignedbb.c);
-        int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+    	generateMHValues(axisalignedbb);
 
         for (int k1 = i; k1 < j; ++k1) {
             for (int l1 = k; l1 < l; ++l1) {
@@ -1575,12 +1551,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean b(AxisAlignedBB axisalignedbb, Material material) {
-        int i = MathHelper.floor(axisalignedbb.a);
-        int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-        int k = MathHelper.floor(axisalignedbb.b);
-        int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-        int i1 = MathHelper.floor(axisalignedbb.c);
-        int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+    	generateMHValues(axisalignedbb);
 
         for (int k1 = i; k1 < j; ++k1) {
             for (int l1 = k; l1 < l; ++l1) {
@@ -1793,7 +1764,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean c(int i, int j, int k, boolean flag) {
-        if (i >= -30000000 && k >= -30000000 && i < 30000000 && k < 30000000) {
+        if (inBounds(i, k)) {
             Chunk chunk = this.chunkProvider.getOrCreateChunk(i >> 4, k >> 4);
 
             if (chunk != null && !chunk.isEmpty()) {
