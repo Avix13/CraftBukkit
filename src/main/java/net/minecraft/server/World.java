@@ -74,6 +74,13 @@ public abstract class World implements IBlockAccess {
     private ArrayList L;
     private boolean M;
     int[] I;
+    
+    public int mhvari;
+    public int mhvarj;
+    public int mhvark;
+    public int mhvarl;
+    public int mhvari1;
+    public int mhvarj1;
 
     public BiomeBase getBiome(int i, int j) {
         if (this.isLoaded(i, 0, j)) {
@@ -124,12 +131,12 @@ public abstract class World implements IBlockAccess {
     }
     
     public void generateMHValues(AxisAlignedBB axisalignedbb) {
-	    int i = MathHelper.floor(axisalignedbb.a);
-	    int j = MathHelper.floor(axisalignedbb.d + 1.0D);
-	    int k = MathHelper.floor(axisalignedbb.b);
-	    int l = MathHelper.floor(axisalignedbb.e + 1.0D);
-	    int i1 = MathHelper.floor(axisalignedbb.c);
-	    int j1 = MathHelper.floor(axisalignedbb.f + 1.0D);
+	    mhvari = MathHelper.floor(axisalignedbb.a);
+	    mhvarj = MathHelper.floor(axisalignedbb.d + 1.0D);
+	    mhvark = MathHelper.floor(axisalignedbb.b);
+	    mhvarl = MathHelper.floor(axisalignedbb.e + 1.0D);
+	    mhvari1 = MathHelper.floor(axisalignedbb.c);
+	    mhvarj1 = MathHelper.floor(axisalignedbb.f + 1.0D);
     }
 
     // Changed signature - added gen and env
@@ -1003,10 +1010,10 @@ public abstract class World implements IBlockAccess {
         this.L.clear();
         generateMHValues(axisalignedbb);
 
-        for (int k1 = i; k1 < j; ++k1) {
-            for (int l1 = i1; l1 < j1; ++l1) {
+        for (int k1 = mhvari; k1 < mhvarj; ++k1) {
+            for (int l1 = mhvari1; l1 < mhvarj1; ++l1) {
                 if (this.isLoaded(k1, 64, l1)) {
-                    for (int i2 = k - 1; i2 < l; ++i2) {
+                    for (int i2 = mhvark - 1; i2 < mhvarl; ++i2) {
                         Block block;
 
                         if (inBounds(k1, l1)) {
@@ -1044,10 +1051,10 @@ public abstract class World implements IBlockAccess {
         this.L.clear();
         generateMHValues(axisalignedbb);
 
-        for (int k1 = i; k1 < j; ++k1) {
-            for (int l1 = i1; l1 < j1; ++l1) {
+        for (int k1 = mhvari; k1 < mhvarj; ++k1) {
+            for (int l1 = mhvari1; l1 < mhvarj1; ++l1) {
                 if (this.isLoaded(k1, 64, l1)) {
-                    for (int i2 = k - 1; i2 < l; ++i2) {
+                    for (int i2 = mhvark - 1; i2 < mhvarl; ++i2) {
                         Block block;
 
                         if (inBounds(k1, l1)) {
@@ -1419,20 +1426,20 @@ public abstract class World implements IBlockAccess {
     	generateMHValues(axisalignedbb);
 
         if (axisalignedbb.a < 0.0D) {
-            --i;
+            --mhvari;
         }
 
         if (axisalignedbb.b < 0.0D) {
-            --k;
+            --mhvark;
         }
 
         if (axisalignedbb.c < 0.0D) {
-            --i1;
+            --mhvari1;
         }
 
-        for (int k1 = i; k1 < j; ++k1) {
-            for (int l1 = k; l1 < l; ++l1) {
-                for (int i2 = i1; i2 < j1; ++i2) {
+        for (int k1 = mhvari; k1 < mhvarj; ++k1) {
+            for (int l1 = mhvark; l1 < mhvarl; ++l1) {
+                for (int i2 = mhvari1; i2 < mhvarj1; ++i2) {
                     Block block = this.getType(k1, l1, i2);
 
                     if (block.getMaterial() != Material.AIR) {
@@ -1449,20 +1456,20 @@ public abstract class World implements IBlockAccess {
     	generateMHValues(axisalignedbb);
 
         if (axisalignedbb.a < 0.0D) {
-            --i;
+            --mhvari;
         }
 
         if (axisalignedbb.b < 0.0D) {
-            --k;
+            --mhvark;
         }
 
         if (axisalignedbb.c < 0.0D) {
-            --i1;
+            --mhvari1;
         }
 
-        for (int k1 = i; k1 < j; ++k1) {
-            for (int l1 = k; l1 < l; ++l1) {
-                for (int i2 = i1; i2 < j1; ++i2) {
+        for (int k1 = mhvari; k1 < mhvarj; ++k1) {
+            for (int l1 = mhvark; l1 < mhvarl; ++l1) {
+                for (int i2 = mhvari1; i2 < mhvarj1; ++i2) {
                     Block block = this.getType(k1, l1, i2);
 
                     if (block.getMaterial().isLiquid()) {
@@ -1478,10 +1485,10 @@ public abstract class World implements IBlockAccess {
     public boolean e(AxisAlignedBB axisalignedbb) {
     	generateMHValues(axisalignedbb);
 
-        if (this.b(i, k, i1, j, l, j1)) {
-            for (int k1 = i; k1 < j; ++k1) {
-                for (int l1 = k; l1 < l; ++l1) {
-                    for (int i2 = i1; i2 < j1; ++i2) {
+        if (this.b(mhvari, mhvark, mhvari1, mhvarj, mhvarl, mhvarj1)) {
+            for (int k1 = mhvari; k1 < mhvarj; ++k1) {
+                for (int l1 = mhvark; l1 < mhvarl; ++l1) {
+                    for (int i2 = mhvari1; i2 < mhvarj1; ++i2) {
                         Block block = this.getType(k1, l1, i2);
 
                         if (block == Blocks.FIRE || block == Blocks.LAVA || block == Blocks.STATIONARY_LAVA) {
@@ -1498,15 +1505,15 @@ public abstract class World implements IBlockAccess {
     public boolean a(AxisAlignedBB axisalignedbb, Material material, Entity entity) {
     	generateMHValues(axisalignedbb);
 
-        if (!this.b(i, k, i1, j, l, j1)) {
+        if (!this.b(mhvari, mhvark, mhvari1, mhvarj, mhvarl, mhvarj1)) {
             return false;
         } else {
             boolean flag = false;
             Vec3D vec3d = Vec3D.a(0.0D, 0.0D, 0.0D);
 
-            for (int k1 = i; k1 < j; ++k1) {
-                for (int l1 = k; l1 < l; ++l1) {
-                    for (int i2 = i1; i2 < j1; ++i2) {
+            for (int k1 = mhvari; k1 < mhvarj; ++k1) {
+                for (int l1 = mhvark; l1 < mhvarl; ++l1) {
+                    for (int i2 = mhvari1; i2 < mhvarj1; ++i2) {
                         Block block = this.getType(k1, l1, i2);
 
                         if (block.getMaterial() == material) {
@@ -1537,9 +1544,9 @@ public abstract class World implements IBlockAccess {
     public boolean a(AxisAlignedBB axisalignedbb, Material material) {
     	generateMHValues(axisalignedbb);
 
-        for (int k1 = i; k1 < j; ++k1) {
-            for (int l1 = k; l1 < l; ++l1) {
-                for (int i2 = i1; i2 < j1; ++i2) {
+        for (int k1 = mhvari; k1 < mhvarj; ++k1) {
+            for (int l1 = mhvark; l1 < mhvarl; ++l1) {
+                for (int i2 = mhvari1; i2 < mhvarj1; ++i2) {
                     if (this.getType(k1, l1, i2).getMaterial() == material) {
                         return true;
                     }
@@ -1553,9 +1560,9 @@ public abstract class World implements IBlockAccess {
     public boolean b(AxisAlignedBB axisalignedbb, Material material) {
     	generateMHValues(axisalignedbb);
 
-        for (int k1 = i; k1 < j; ++k1) {
-            for (int l1 = k; l1 < l; ++l1) {
-                for (int i2 = i1; i2 < j1; ++i2) {
+        for (int k1 = mhvari; k1 < mhvarj; ++k1) {
+            for (int l1 = mhvark; l1 < mhvarl; ++l1) {
+                for (int i2 = mhvari1; i2 < mhvarj1; ++i2) {
                     Block block = this.getType(k1, l1, i2);
 
                     if (block.getMaterial() == material) {
