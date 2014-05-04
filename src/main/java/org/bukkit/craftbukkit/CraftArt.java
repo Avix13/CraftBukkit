@@ -2,73 +2,92 @@ package org.bukkit.craftbukkit;
 
 import net.minecraft.server.EnumArt;
 import org.bukkit.Art;
+import java.util.HashMap;
+
 
 // Safety class, will break if either side changes
 public class CraftArt {
 
+    static HashMap<EnumArt, Art> EnumArtToArt = initializeEnumArtToArt();
+
+    private static HashMap<EnumArt, Art> initializeEnumArtToArt() {
+        HashMap<EnumArt, Art> hashmap = new HashMap<EnumArt, Art>();
+        hashmap.put(EnumArt.KEBAB, Art.KEBAB);
+        hashmap.put(EnumArt.AZTEC, Art.AZTEC);
+        hashmap.put(EnumArt.ALBAN, Art.ALBAN);
+        hashmap.put(EnumArt.AZTEC2, Art.AZTEC2);
+        hashmap.put(EnumArt.BOMB, Art.BOMB);
+        hashmap.put(EnumArt.PLANT, Art.PLANT);
+        hashmap.put(EnumArt.WASTELAND, Art.WASTELAND);
+        hashmap.put(EnumArt.POOL, Art.POOL);
+        hashmap.put(EnumArt.COURBET, Art.COURBET);
+        hashmap.put(EnumArt.SEA, Art.SEA);
+        hashmap.put(EnumArt.SUNSET, Art.SUNSET);
+        hashmap.put(EnumArt.CREEBET, Art.CREEBET);
+        hashmap.put(EnumArt.WANDERER, Art.WANDERER);
+        hashmap.put(EnumArt.GRAHAM, Art.GRAHAM);
+        hashmap.put(EnumArt.MATCH, Art.MATCH);
+        hashmap.put(EnumArt.BUST, Art.BUST);
+        hashmap.put(EnumArt.STAGE, Art.STAGE);
+        hashmap.put(EnumArt.VOID, Art.VOID);
+        hashmap.put(EnumArt.SKULL_AND_ROSES, Art.SKULL_AND_ROSES);
+        hashmap.put(EnumArt.FIGHTERS, Art.FIGHTERS);
+        hashmap.put(EnumArt.POINTER, Art.POINTER);
+        hashmap.put(EnumArt.PIGSCENE, Art.PIGSCENE);
+        hashmap.put(EnumArt.BURNINGSKULL, Art.BURNINGSKULL);
+        hashmap.put(EnumArt.SKELETON, Art.SKELETON);
+        hashmap.put(EnumArt.DONKEYKONG, Art.DONKEYKONG);
+        hashmap.put(EnumArt.WITHER, Art.WITHER);
+        return hashmap;
+    }
+
+    static HashMap<Art, EnumArt> ArtToEnumArt = initializeArtToEnumArt();
+    
+    private static HashMap<Art, EnumArt> initializeArtToEnumArt() {
+        HashMap<Art, EnumArt> hashmap = new HashMap<Art, EnumArt>();
+        hashmap.put(Art.KEBAB, EnumArt.KEBAB);
+        hashmap.put(Art.AZTEC, EnumArt.AZTEC);
+        hashmap.put(Art.ALBAN, EnumArt.ALBAN);
+        hashmap.put(Art.AZTEC2, EnumArt.AZTEC2);
+        hashmap.put(Art.BOMB, EnumArt.BOMB);
+        hashmap.put(Art.PLANT, EnumArt.PLANT);
+        hashmap.put(Art.WASTELAND, EnumArt.WASTELAND);
+        hashmap.put(Art.POOL, EnumArt.POOL);
+        hashmap.put(Art.COURBET, EnumArt.COURBET);
+        hashmap.put(Art.SEA, EnumArt.SEA);
+        hashmap.put(Art.SUNSET, EnumArt.SUNSET);
+        hashmap.put(Art.CREEBET, EnumArt.CREEBET);
+        hashmap.put(Art.WANDERER, EnumArt.WANDERER);
+        hashmap.put(Art.GRAHAM, EnumArt.GRAHAM);
+        hashmap.put(Art.MATCH, EnumArt.MATCH);
+        hashmap.put(Art.BUST, EnumArt.BUST);
+        hashmap.put(Art.STAGE, EnumArt.STAGE);
+        hashmap.put(Art.VOID, EnumArt.VOID);
+        hashmap.put(Art.SKULL_AND_ROSES, EnumArt.SKULL_AND_ROSES);
+        hashmap.put(Art.FIGHTERS, EnumArt.FIGHTERS);
+        hashmap.put(Art.POINTER, EnumArt.POINTER);
+        hashmap.put(Art.PIGSCENE, EnumArt.PIGSCENE);
+        hashmap.put(Art.BURNINGSKULL, EnumArt.BURNINGSKULL);
+        hashmap.put(Art.SKELETON, EnumArt.SKELETON);
+        hashmap.put(Art.DONKEYKONG, EnumArt.DONKEYKONG);
+        hashmap.put(Art.WITHER, EnumArt.WITHER);
+        return hashmap;
+    }
+
+
     public static Art NotchToBukkit(EnumArt art) {
-        switch (art) {
-            case KEBAB: return Art.KEBAB;
-            case AZTEC: return Art.AZTEC;
-            case ALBAN: return Art.ALBAN;
-            case AZTEC2: return Art.AZTEC2;
-            case BOMB: return Art.BOMB;
-            case PLANT: return Art.PLANT;
-            case WASTELAND: return Art.WASTELAND;
-            case POOL: return Art.POOL;
-            case COURBET: return Art.COURBET;
-            case SEA: return Art.SEA;
-            case SUNSET: return Art.SUNSET;
-            case CREEBET: return Art.CREEBET;
-            case WANDERER: return Art.WANDERER;
-            case GRAHAM: return Art.GRAHAM;
-            case MATCH: return Art.MATCH;
-            case BUST: return Art.BUST;
-            case STAGE: return Art.STAGE;
-            case VOID: return Art.VOID;
-            case SKULL_AND_ROSES: return Art.SKULL_AND_ROSES;
-            case FIGHTERS: return Art.FIGHTERS;
-            case POINTER: return Art.POINTER;
-            case PIGSCENE: return Art.PIGSCENE;
-            case BURNINGSKULL: return Art.BURNINGSKULL;
-            case SKELETON: return Art.SKELETON;
-            case DONKEYKONG: return Art.DONKEYKONG;
-            case WITHER: return Art.WITHER;
-            default:
-                throw new AssertionError(art);
+        try {
+            return EnumArtToArt.get(art);
+        } catch(AssertionError err){
+            throw err;
         }
     }
 
     public static EnumArt BukkitToNotch(Art art) {
-        switch (art) {
-            case KEBAB: return EnumArt.KEBAB;
-            case AZTEC: return EnumArt.AZTEC;
-            case ALBAN: return EnumArt.ALBAN;
-            case AZTEC2: return EnumArt.AZTEC2;
-            case BOMB: return EnumArt.BOMB;
-            case PLANT: return EnumArt.PLANT;
-            case WASTELAND: return EnumArt.WASTELAND;
-            case POOL: return EnumArt.POOL;
-            case COURBET: return EnumArt.COURBET;
-            case SEA: return EnumArt.SEA;
-            case SUNSET: return EnumArt.SUNSET;
-            case CREEBET: return EnumArt.CREEBET;
-            case WANDERER: return EnumArt.WANDERER;
-            case GRAHAM: return EnumArt.GRAHAM;
-            case MATCH: return EnumArt.MATCH;
-            case BUST: return EnumArt.BUST;
-            case STAGE: return EnumArt.STAGE;
-            case VOID: return EnumArt.VOID;
-            case SKULL_AND_ROSES: return EnumArt.SKULL_AND_ROSES;
-            case FIGHTERS: return EnumArt.FIGHTERS;
-            case POINTER: return EnumArt.POINTER;
-            case PIGSCENE: return EnumArt.PIGSCENE;
-            case BURNINGSKULL: return EnumArt.BURNINGSKULL;
-            case SKELETON: return EnumArt.SKELETON;
-            case DONKEYKONG: return EnumArt.DONKEYKONG;
-            case WITHER: return EnumArt.WITHER;
-            default:
-                throw new AssertionError(art);
+        try {
+            return ArtToEnumArt.get(art);
+        } catch(AssertionError err){
+            throw err;
         }
     }
 }
